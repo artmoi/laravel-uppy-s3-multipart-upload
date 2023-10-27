@@ -8,4 +8,8 @@ Route::post('/s3/multipart', [UppyS3MultipartController::class, 'createMultipart
 Route::get('/s3/multipart/{uploadId}', [UppyS3MultipartController::class, 'getUploadedParts']);
 Route::post('/s3/multipart/{uploadId}/complete', [UppyS3MultipartController::class, 'completeMultipartUpload']);
 Route::delete('/s3/multipart/{uploadId}', [UppyS3MultipartController::class, 'abortMultipartUpload']);
-Route::get('/s3/multipart/{uploadId}/{partNumber}', [UppyS3MultipartController::class, 'signPartUpload']);
+Route::get('/s3/multipart/{uploadId}/batch', [UppyS3MultipartController::class, 'batchSignPartUpload'])
+Route::get('/s3/multipart/{uploadId}/{partNumber}', [UppyS3MultipartController::class, 'signPartUpload'])
+    ->where([
+        'partNumber' => '[0-9]+'
+    ]);
