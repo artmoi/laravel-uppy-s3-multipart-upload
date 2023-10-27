@@ -288,6 +288,7 @@ class UppyS3MultipartController extends Controller
             ->json([]);
     }
 
+    
     /**
      * Presign a URL for a part.
      *
@@ -296,9 +297,14 @@ class UppyS3MultipartController extends Controller
      * @return string JSON with the URL
      */
     public function signPartUpload(Request $request)
-    {
+    {    
         $partNumber = $request->route('partNumber');
-        $url = $this->getSignedUrl($request, intval($partNumber));
+
+        if(is_string($partNumber) && $request->has('partNumbers')) {
+            $partNumber = $request->get('partNumbers');
+        }
+        
+        $url = $this->getSignedUrl($request, $partNumber);
 
         return response()
             ->json([
